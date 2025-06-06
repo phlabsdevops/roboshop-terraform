@@ -135,3 +135,111 @@ resource "aws_security_group_rule" "redis-cart" {
   protocol          = "tcp"
   security_group_id = module.redis.sg-id
 }
+#mysql is only accept connections from shipping.
+resource "aws_security_group_rule" "mysql-shipping" {
+  source_security_group_id = module.shipping.sg-id    
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  security_group_id = module.mysql.sg-id
+}
+#rabbitmq is only accept connections from payment.
+resource "aws_security_group_rule" "rabbitmq-payment" {
+  source_security_group_id = module.payment.sg-id    
+  type              = "ingress"
+  from_port         = 5672
+  to_port           = 5672
+  protocol          = "tcp"
+  security_group_id = module.rabbitmq.sg-id
+}
+#catalogue is only accept connections from web and cart.
+resource "aws_security_group_rule" "catalogue-web" {
+  source_security_group_id = module.web.sg-id    
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  security_group_id = module.catalogue.sg-id
+}
+#catalogue is only accept connections from web and cart.
+resource "aws_security_group_rule" "catalogue-cart" {
+  source_security_group_id = module.cart.sg-id    
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  security_group_id = module.catalogue.sg-id
+}
+#user is only accept connections from web and payment.
+resource "aws_security_group_rule" "user-web" {
+  source_security_group_id = module.web.sg-id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.user.sg-id
+}
+#user is only accept connections from web and payment.
+resource "aws_security_group_rule" "user-payment" {
+  source_security_group_id = module.payment.sg-id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.user.sg-id
+}
+#cart is only accept connections from web, shipping and payment.
+resource "aws_security_group_rule" "cart-web" {
+  source_security_group_id = module.web.sg-id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.cart.sg-id
+}
+#cart is only accept connections from web, shipping and payment.
+resource "aws_security_group_rule" "cart-shipping" {
+  source_security_group_id = module.shipping.sg-id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.cart.sg-id
+}
+#cart is only accept connections from web, shipping and payment.
+resource "aws_security_group_rule" "cart-payment" {
+  source_security_group_id = module.payment.sg-id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.cart.sg-id
+}
+#shipping is only accept connections from web.
+resource "aws_security_group_rule" "shipping-web" {
+  source_security_group_id = module.web.sg-id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.shipping.sg-id
+}
+#payment is only accept connections from web.
+resource "aws_security_group_rule" "payment-web" {
+  source_security_group_id = module.web.sg-id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.payment.sg-id
+}
+#web is accept connections from internet.
+resource "aws_security_group_rule" "web_internet" {
+  cidr_blocks = ["0.0.0.0/0"]
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = module.web.sg-id
+}
