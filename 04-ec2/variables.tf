@@ -19,3 +19,7 @@ variable "environment" {
   type=string
   default = "dev"
 }
+variable "zone_name" {
+  type = string
+  default = "phlabsdevops.site"
+}

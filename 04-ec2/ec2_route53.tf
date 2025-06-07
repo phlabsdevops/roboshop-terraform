@@ -178,3 +178,91 @@ module "web" {
   )
 
 }
+
+module "records" {
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+  zone_name = var.zone_name
+
+  records = [
+    {
+      name    = "mongodb"  #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.mongodb.private_ip}",
+      ]
+    },
+    {
+      name    = "redis"    #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.redis.private_ip}",
+      ]
+    },
+    {
+      name    = "mysql"     #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.mysql.private_ip}",
+      ]
+    },
+    {
+      name    = "rabbitmq"      #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.rabbitmq.private_ip}",
+      ]
+    },
+    {
+      name    = "catalogue"    #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.catalogue.private_ip}",
+      ]
+    },
+    {
+      name    = "user"        #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.user.private_ip}",
+      ]
+    },
+    {
+      name    = "cart"       #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.cart.private_ip}",
+      ]
+    },
+    {
+      name    = "shipping"    #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.shipping.private_ip}",
+      ]
+    },
+    {
+      name    = "payment"     #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.payment.private_ip}",
+      ]
+    },
+    {
+      name    = "web"      #it is automatically append as mongodb.phlabsdevops.site
+      type    = "A"
+      ttl     = 1
+      records = [
+        "${module.web.public_ip}",  #if you use vpn, private_ip also will work.
+      ]
+    },
+  ]
+}

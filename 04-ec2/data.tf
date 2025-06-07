@@ -62,3 +62,14 @@ data "aws_ami" "devops-ami" {
 
   most_recent = true
 }
+
+
+#fetch default vpc
+data "aws_vpc" "default"{
+    default = true
+}
+#fetch default subnet
+data "aws_subnet" "selected"{
+    vpc_id = data.aws_vpc.default.id
+    availability_zone = "us-east-1a"
+}
